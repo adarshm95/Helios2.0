@@ -1,0 +1,78 @@
+﻿@model Helios.Entity.ClientModel
+@{
+    ViewBag.Title = "TimesheetView";
+    Layout = "~/Views/Shared/_LoggedInLayout.cshtml";
+}
+
+<div style="text-align:center">
+    <h2>Time Sheet</h2>
+    <table>
+        <tr>
+            <th>From Time</th>
+            <th>To Time</th>
+            <th>Project</th>
+            <th>Activity Type</th>
+            <th>Remarks</th>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <div class='input-group date timePicker' id='datetimepicker_from_time'>
+
+                        @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control", id = "from_time" } })
+
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                
+            <td>
+                <div class="form-group">
+                    <div class='input-group date timePicker'  id='datetimepicker_to_time'>
+
+                        @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control", id = "to_time" } })
+
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <button class="btn btn-primary " id="save">save</button>
+            </td>
+        </tr>
+    </table>
+
+    <div id="pager2" style="text-align:center">
+        @section scripts
+    {
+            <script>
+            $(document).ready(function () {
+                LoadData();
+
+            });
+
+            function LoadData() {
+                $('#save').click(function () {
+
+                    console.log("clicked" + $("#from_time").val());
+                    var beginningTime = moment($("#from_time").val(), 'h:mma');
+                    var endTime = moment($("#to_time").val(), 'h:mma');
+
+                    console.log(beginningTime.isBefore(endTime)); 
+                })
+              
+                $('.timePicker').datetimepicker({
+                    format: 'LT'
+                });              
+            }
+
+           
+            </script>
+        }
+    </div>
+
+</div>
+

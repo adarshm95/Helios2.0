@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helios2.0", "Helios2.0\Helios2.0.csproj", "{19AC5137-1E25-466B-AEC9-8D4954EA6514}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helios.Buisness", "Helios.Buisness\Helios.Buisness.csproj", "{561E0D77-D62E-437C-AB49-525DDAEEFD15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helios.Entity", "Helios.Entity\Helios.Entity.csproj", "{9DA598AA-4BFA-4431-AEB1-F8D92BE4809E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19AC5137-1E25-466B-AEC9-8D4954EA6514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19AC5137-1E25-466B-AEC9-8D4954EA6514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19AC5137-1E25-466B-AEC9-8D4954EA6514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19AC5137-1E25-466B-AEC9-8D4954EA6514}.Release|Any CPU.Build.0 = Release|Any CPU
+		{561E0D77-D62E-437C-AB49-525DDAEEFD15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{561E0D77-D62E-437C-AB49-525DDAEEFD15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{561E0D77-D62E-437C-AB49-525DDAEEFD15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{561E0D77-D62E-437C-AB49-525DDAEEFD15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DA598AA-4BFA-4431-AEB1-F8D92BE4809E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DA598AA-4BFA-4431-AEB1-F8D92BE4809E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DA598AA-4BFA-4431-AEB1-F8D92BE4809E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DA598AA-4BFA-4431-AEB1-F8D92BE4809E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

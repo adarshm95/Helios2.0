@@ -1,0 +1,50 @@
+﻿@model Helios.Entity.Models.AuditModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<!--    <div class="input-group bootstrap-timepicker timepicker">
+    <input id="timepicker1" type="text" class="form-control input-small">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+</div>  -->
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Log_date, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Log_date, new { htmlAttributes = new { @class = "timepicker" } })
+        @Html.ValidationMessageFor(model => model.Log_date, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<input type="text" name="timepicker" class="timepicker" />
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            LoadData();
+        });
+    </script>
+
+    <script type="text/javascript">
+        function LoadData() {
+           // $('#timepicker1').timepicker();
+            $('.timepicker').wickedpicker();
+        }
+    </script>
+
+}
+
+
+
+
+
+
+
+
+
+
+
+

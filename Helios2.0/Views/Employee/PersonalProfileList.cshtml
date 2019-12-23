@@ -1,0 +1,83 @@
+﻿@model Helios.Entity.Models.PersonalProfileModel
+
+@{
+    ViewBag.Title = "PersonalProfileList";
+    Layout = "~/Views/Shared/_LoggedInLayout.cshtml";
+}
+
+<h2>PersonalProfileList</h2>
+
+
+<table id="jqgridTable"></table>
+<div id="pager2" style="text-align:center">
+    @section scripts
+{
+        <script>
+            $(document).ready(function () {
+                LoadData();
+            });
+
+            function LoadData() {
+                var id = 0;
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("PersonalProfileList", "Employee")',
+                    data: '{id: ' + id + '}',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+
+                        console.log(JSON.stringify(response));
+                        loadjqgrid(response)
+
+                    },
+                    error: function () {
+                        alert("Error while getting data");
+                    }
+                });
+
+            }
+
+            function loadjqgrid(data) {
+                jQuery("#jqgridTable").jqGrid({
+                    data: data,
+                    datatype: "local",
+                    colNames: ['ID','Name', 'Prefered Name', 'Nationality', 'Date of Birth', 'Gender', 'Phone Number', 'Network Id', 'Created Date', 'Email', 'Active Flag', '&nbsp;'],
+                    colModel: [
+                        { name: 'Employee_profile_id', index: 'Employee_profile_id', width: 30 },
+                        { name: 'Employee_name', index: 'Employee_name', width: 150 },
+                        { name: 'Prefered_name', index: 'Prefered_name', width: 150 },
+                        { name: 'Nationality', index: 'Nationality', align: "center", width: 120 },
+                        { name: 'DOB', index: 'DOB', width: 120, align: "center", formatter: 'date', formatoptions: { srcformat: 'd/m/Y', newformat: 'd/m/Y' } },
+                        { name: 'Gender', index: 'Gender', width: 60, align: "center" },
+                        { name: 'Phone_number', index: 'Phone_number', width: 150, align: "center", sortable: false },
+                        { name: 'Network_id', index: 'Network_id', width: 80, align: "center" },
+                      //  { name: 'Created_by', index: 'Created_by', width: 80, align: "center", sortable: false },
+                        { name: 'Created_date', index: 'Created_date', width: 120, align: "center", formatter: 'date', formatoptions: { srcformat: 'd/m/Y', newformat: 'd/m/Y' } },
+                        { name: 'Email', index: 'Email', width: 150, align: "center" },
+                        { name: 'Active_flag', index: 'Active_flag', width: 100, align: "center", sortable: false },
+                        { name: 'Employee_profile_id', width: 50, formatter: myCustomFormatter }
+                    ],
+                    rowNum: 10,
+                    rowList: [10, 20, 30],
+                    pager: '#pager2',
+                    sortname: 'Employee_name',
+                    viewrecords: true,
+                    sortorder: "desc"
+                });
+            }
+            var myCustomFormatter = function (cellVal, options, rowObject) {
+
+                return "<input style='height:22px;' type='button' value='Edit' onclick=\"sendtoEdit(" + cellVal + ")\" />";
+            };
+            function sendtoEdit(id) {
+                console.log(id);
+                var url = '@Url.Action("PersonalProfileView", "Employee")';
+                url = url + "?id=" + id;
+                window.location.href = url;
+
+            }
+        </script>
+    }
+    
+</div>

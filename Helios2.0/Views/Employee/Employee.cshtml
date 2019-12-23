@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Employee";
+    Layout = "~/Views/Shared/_LoggedInLayout.cshtml";
+}
+
+<h2>Employee</h2>
+@{
+    Html.RenderAction("NewPersonalProfile", "Employee");
+   // Html.RenderAction("NewEmployeeOfficial", "Employee");
+}
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+
+            $("#datepicker").datepicker({
+                inline: true,
+                dateFormat: "m/d/yy",
+                firstDay: 1,
+                startDate: "01/01/1990",
+                endDate: "12/31/2030",
+
+            });
+       });
+    </script>
+}

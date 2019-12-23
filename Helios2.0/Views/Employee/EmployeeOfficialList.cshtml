@@ -1,0 +1,83 @@
+﻿@model Helios.Entity.Models.EmployeeOfficialModel
+@{
+    ViewBag.Title = "EmployeeOfficialList";
+    Layout = "~/Views/Shared/_LoggedInLayout.cshtml";
+}
+<h2>EmployeeOfficialList</h2>
+
+<table id="jqgridTable"></table>
+<div id="pager2" style="text-align:center">
+    @section scripts
+{
+        <script>
+            $(document).ready(function () {
+                LoadData();
+            });
+
+            function LoadData() {
+                var id = 0;
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("EmployeeOfficialList", "Employee")',
+                    data: '{id: ' + id + '}',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+
+                        console.log(JSON.stringify(response));
+                        loadjqgrid(response)
+
+                    },
+                    error: function () {
+                        alert("Error while getting data");
+                    }
+                });
+
+            }
+
+            function loadjqgrid(data) {
+                jQuery("#jqgridTable").jqGrid({
+                    data: data,
+                    datatype: "local",
+                    colNames: ['ID', 'Employee Id', 'Employee Type', 'Employee Role ', 'Department', 'Organization Unit', 'Job code', 'Manager', 'Hiring Manager', 'Supervisor', 'HR Manager', 'Hiring Date', 'Email', 'Created Date', 'Active Flag', '&nbsp;'],
+                    colModel: [
+                        { name: 'Employee_official_profile_id', index: 'Employee_official_profile_id', width: 30 },
+                        { name: 'Employee_id', index: 'Employee_id', width: 150 },
+                        { name: 'Employee_Type_name', index: 'Employee_Type_name', width: 150 },
+                        { name: 'Role_name', index: 'Role_name', align: "center", width: 180 },
+                        { name: 'Department_name', index: 'Department_name', align: "center", width: 120 },
+                        { name: 'Organization_unit_name', index: 'Organization_unit_name', width: 120, align: "center" },
+                        { name: 'Job_code', index: 'Job_code', width: 120, align: "center"},
+                        { name: 'Manager_Name', index: 'Manager_Name', width: 180, align: "center" },
+                        { name: 'Hiring_Manager_Name', index: 'Hiring_Manager_Name', width: 100, align: "center" },
+                        { name: 'supervisor_Name', index: 'supervisor_Name', width: 100, align: "center" },
+                        { name: 'HR_Manager_Name', index: 'HR_Manager_Name', width: 120, align: "center" },
+                        { name: 'Hiring_date', index: 'Hiring_date', width: 120, align: "center", formatter: 'date', formatoptions: { srcformat: 'd/m/Y', newformat: 'd/m/Y' } },
+                        { name: 'Email_address', index: 'Email_address', width: 150, align: "center" },
+                        { name: 'Created_Date', index: 'Created_Date', width: 120, align: "center", formatter: 'date', formatoptions: { srcformat: 'd/m/Y', newformat: 'd/m/Y' } },
+                        { name: 'Active_flag', index: 'Active_flag', width: 100, align: "center", sortable: false },
+                        { name: 'Employee_official_profile_id', width: 50, formatter: myCustomFormatter }
+                    ],
+                    rowNum: 10,
+                    rowList: [10, 15, 35],
+                    pager: '#pager2',
+                    sortname: 'Employee_id',
+                    viewrecords: true,
+                    sortorder: "desc"
+                });
+            }
+            var myCustomFormatter = function (cellVal, options, rowObject) {
+
+                return "<input style='height:22px;' type='button' value='Edit' onclick=\"sendtoEdit(" + cellVal + ")\" />";
+            };
+            function sendtoEdit(id) {
+                console.log(id);
+                var url = '@Url.Action("EmployeeOfficialView", "Employee")';
+                url = url + "?id=" + id;
+                window.location.href = url;
+
+            }
+        </script>
+    }
+
+</div>

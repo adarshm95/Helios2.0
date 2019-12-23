@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "ClientList";
+    Layout= "~/Views/Shared/_LoggedInLayout.cshtml"; 
+}
+
+<h2>Client List</h2>
+
+
+<table id="jqgridTable"></table>
+<div id="pager2" style="text-align:center">
+    @section Scripts
+{
+        <script>
+            $(document).ready(function () {
+                LoadData();
+            });
+
+            function LoadData() {
+                var id = 0;
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetClients", "Client")',
+                    data: '{id: ' + id + '}',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+
+                        console.log(JSON.stringify(response));
+                        loadjqgrid(response)
+
+                    },
+                    error: function () {
+                        alert("Error while getting data");
+                    }
+                });
+
+            }
+
+            function loadjqgrid(data) {
+                jQuery("#jqgridTable").jqGrid({
+                    data: data,
+                    datatype: "local",
+                    colNames: ['ID', 'Name', 'Description', 'Active On', 'Created By', 'Created Date', 'Updated By', 'Updated Date', '&nbsp;', '&nbsp;'],
+                    colModel: [
+                        { name: 'Client_Id', index: 'Client_Id', width: 55 },
+                        { name: 'Client_Name', index: 'Client_Name', width: 90 },
+                        { name: 'Description', index: 'Description', width: 100 },
+                        { name: 'ActiveOn', index: 'ActiveOn', width: 80, align: "right", formatter: 'date', formatoptions: { srcformat: 'd/m/Y', newformat: 'd/m/Y' } },
+                        { name: 'CreatedBy', index: 'CreatedBy', width: 80, align: "right" },
+                        { name: 'CreatedDate', index: 'CreatedDate', width: 80, align: "right", formatter: 'date', formatoptions: { srcformat: 'd/m/Y', newformat: 'd/m/Y' } },
+                        { name: 'UpdatedBy', index: 'UpdatedBy', width: 150, sortable: false },
+                        { name: 'UpdatedDate', index: 'UpdatedDate', width: 150, sortable: false, formatter: 'date', formatoptions: { srcformat: 'd/m/Y', newformat: 'd/m/Y' } },
+                        { name: 'Client_Id', width: 50, formatter: myCustomFormatter },
+                        { name: 'Client_Id', width: 70, formatter: myCustomFormatter2 }
+
+                    ],
+                    rowNum: 10,
+                    rowList: [10, 20, 30],
+                    pager: '#pager2',
+                    sortname: 'firstName',
+                    sortname: 'lastName',
+                    viewrecords: true,
+                    sortorder: "desc"
+                });
+            }
+            var myCustomFormatter = function (cellVal, options, rowObject) {
+
+                return "<input style='height:22px;' type='button' value='Edit' onclick=\"sendtoEdit(" + cellVal + ")\" />";
+            };
+            var myCustomFormatter2 = function (cellVal, options, rowObject) {
+
+                return "<input style='height:22px;' type='button' value='Delete' onclick=\"sendtoDelete(" + cellVal + ")\" />";
+            };
+            function sendtoEdit(id) {
+                console.log(id);
+                var url = '@Url.Action("EditClient", "Client")';
+                url = url + "?id=" + id;
+                window.location.href = url;
+
+            }
+            function sendtoDelete(id) {
+                var ret = confirm("Are you Sure???");
+                if (ret == true) {
+                    console.log(id);
+                    var url = '@Url.Action("ClientList", "Client")';
+                    url = url + "?id=" + id;
+                    formaction = url;
+                    // window.location.href = url;
+                    
+                    
+                    jQuery('#jqgridTable').jqGrid('clearGridData')
+                    jQuery('#jqgridTable').jqGrid('setGridParam', { data: response, page: 1 })
+                    jQuery('#jqgridTable').trigger('reloadGrid');
+                    loadjqgrid(response);
+                }
+            
+
+            }
+        </script>
+    }
+</div>
+

@@ -1,0 +1,76 @@
+﻿@model Helios.Entity.ProjectsModel
+@{
+    ViewBag.Title = "ProjectList";
+}
+<h3>Project Details</h3>
+<table id="jqgridTable"></table>
+<div id="pager2" style="text-align:center">
+    @section scripts
+{
+        <script>
+            $(document).ready(function () {
+                LoadData();
+            });
+
+            function LoadData() {
+                var id = 0;
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("ProjectList", "Employee")',
+                    data: '{id: ' + id + '}',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+
+                        console.log(JSON.stringify(response));
+                        loadjqgrid(response)
+
+                    },
+                    error: function () {
+                        alert("Error while getting data");
+                    }
+                });
+
+            }
+
+            function loadjqgrid(data) {
+                jQuery("#jqgridTable").jqGrid({
+
+                    data: data,
+                    datatype: "local",
+                    colNames: ['ID','ProjectParentID', 'ProjectName', 'ProjectDescription', 'ProjectStartDate', 'ProjectEndDate', 'CreatedBy', 'CreatedDate', 'ClientName', 'ActiveFlag', '&nbsp;'],
+                    colModel: [
+                        { name: 'Project_id', index: 'Project_id', width: 30 },
+                        { name: 'Project_parent_id', index: 'Project_parent_id', width: 150 },
+                        { name: 'Project_name', index: 'Project_name', width: 150 },
+                        { name: 'Project_start_date', index: 'Project_start_date', align: "center", width: 120 },
+                        { name: 'Project_end_date', index: 'Project_end_date', width: 120, align: "center", formatter: 'date', formatoptions: { srcformat: 'd/m/Y', newformat: 'd/m/Y' } },
+                        { name: 'Created_by', index: 'Created_by', width: 60, align: "center" },
+                        { name: 'Created_date', index: 'Created_date', width: 150, align: "center", sortable: false },
+                        { name: 'Client_name', index: 'Client_name', width: 150, align: "center" },
+                        { name: 'Active_flag', index: 'Active_flag', width: 100, align: "center", sortable: false },
+                        { name: 'Project_id', width: 50, formatter: myCustomFormatter }
+                    ],
+                    rowNum: 10,
+                    rowList: [10, 20, 30],
+                    pager: '#pager2',
+                    sortname: 'Project_parent_id',
+                    viewrecords: true,
+                    sortorder: "desc"
+                });
+            }
+            var myCustomFormatter = function (cellVal, options, rowObject) {
+
+                return "<input style='height:22px;' type='button' value='Edit' onclick=\"sendtoEdit(" + cellVal + ")\" />";
+            };
+            function sendtoEdit(id) {
+                console.log(id);
+                var url = '@Url.Action("UpdateProject", "Employee")';
+                url = url + "?id=" + id;
+                window.location.href = url;
+
+            }
+        </script>
+    }
+</div>
+
